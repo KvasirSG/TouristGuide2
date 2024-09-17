@@ -32,6 +32,7 @@ public class TouristController {
     public String editAttraction(@PathVariable String name, Model model) {
         TouristAttraction attraction = attractionService.findByName(name);
         model.addAttribute("attraction", attraction);
+        model.addAttribute("tags", Arrays.asList(Tag.values()));
         return "editAttraction"; // HTML page for editing the attraction
     }
 
