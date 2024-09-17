@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class TouristRepository {
@@ -16,39 +15,41 @@ public class TouristRepository {
     // Constructor to initialize with some sample data
     public TouristRepository() {
         // Adding a couple of sample TouristAttraction objects to the list
-        attractions.add(new TouristAttraction("Tivoli","Amusement park in the middle of Copenhagen city center."));
-        attractions.add(new TouristAttraction("The Little Mermaid", "Iconic bronze statue based on the fairy tale by Hans Christian Andersen, located by the waterfront in Copenhagen."));
-    }
-
-    // Create: Add a new TouristAttraction
-    public void addAttraction(TouristAttraction attraction) {
-        attractions.add(attraction);
+        attractions.add(new TouristAttraction("Tivoli","Amusement park in the middle of Copenhagen city center.","Copenhagen",null));
+        attractions.add(new TouristAttraction("The Little Mermaid", "Iconic bronze statue based on the fairy tale by Hans Christian Andersen, located by the waterfront in Copenhagen.","Copenhagen",null));
     }
 
     // Read: Get all TouristAttractions
-    public List<TouristAttraction> getAllAttractions() {
+    public List<TouristAttraction> findAll() {
         return new ArrayList<>(attractions);
     }
 
     // Read: Get a TouristAttraction by name
-    public Optional<TouristAttraction> getAttractionByName(String name) {
-        return attractions.stream().filter(attraction -> attraction.getName().equalsIgnoreCase(name)).findFirst();
+    public TouristAttraction findByName(String name) {
+        return attractions.stream().filter(attraction -> attraction.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
-    // Update: Update an existing TouristAttraction by name
-    public boolean updateAttraction(String name, TouristAttraction updatedAttraction) {
-        Optional<TouristAttraction> existingAttraction = getAttractionByName(name);
-        if (existingAttraction.isPresent()) {
-            int index = attractions.indexOf(existingAttraction.get());
-            attractions.set(index, updatedAttraction);
-            return true;
+    // Method to save a new attraction
+    public void save(TouristAttraction attraction) {
+        attractions.add(attraction);
+    }
+
+    // Method to update an existing attraction
+    public void update(TouristAttraction updatedAttraction) {
+        TouristAttraction existingAttraction = findByName(updatedAttraction.getName());
+        if (existingAttraction != null) {
+            existingAttraction.setDescription(updatedAttraction.getDescription());
+            existingAttraction.setCity(updatedAttraction.getCity());
+            existingAttraction.setTags(updatedAttraction.getTags());
         }
-        return false;
     }
 
-    // Delete: Remove a TouristAttraction by name
-    public boolean deleteAttraction(String name) {
-        return attractions.removeIf(attraction -> attraction.getName().equalsIgnoreCase(name));
+    // Method to delete an existing attraction by name
+    public void deleteByName(String name) {
+        TouristAttraction attraction = findByName(name);
+        if (attraction != null) {
+            attractions.remove(attraction);
+        }
     }
 }
 
