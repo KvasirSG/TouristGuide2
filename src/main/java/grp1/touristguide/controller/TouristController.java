@@ -2,47 +2,71 @@ package grp1.touristguide.controller;
 
 import grp1.touristguide.model.TouristAttraction;
 import grp1.touristguide.service.TouristService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
+@RequestMapping("/attractions")
 public class TouristController {
-    private TouristService touristService;
 
-    public TouristController(TouristService touristService) {
-        this.touristService = touristService;
-    }
+    @Autowired
+    private TouristService attractionService;
 
+    // GET endpoint to show the list of all attractions
     @GetMapping
-    public String tourist(Model model) {
-        List<TouristAttraction> attractions = touristService.getAllAttractions();
+    public String getAllAttractions(Model model) {
+        List<TouristAttraction> attractions = attractionService.findAll();
         model.addAttribute("attractions", attractions);
-        return "tourist";
+        return "attractionList"; // The name of the Thymeleaf template to render
     }
 
-    @GetMapping("/attractions")
-    public String listAttractions(Model model) {
-        List<TouristAttraction> attractions = touristService.getAllAttractions();
-        model.addAttribute("attractions", attractions);
-        return "attractions";
+    // GET endpoint to edit a specific tourist attraction
+    @GetMapping("/{name}/edit")
+    public String editAttraction(@PathVariable String name, Model model) {
+        TouristAttraction attraction = attractionService.findByName(name);
+        model.addAttribute("attraction", attraction);
+        return "editAttraction"; // HTML page for editing the attraction
     }
 
-    @GetMapping("/attractions/{name}")
-    public String listAttractionsByName(Model model, @PathVariable String name) {
-        Optional<TouristAttraction> attraction = touristService.getAttractionByName(name);
-        model.addAttribute("attraction", attraction.get());
-        return "attraction";
+    // POST endpoint to update an existing tourist attraction
+    @PostMapping("/update")
+    public String updateAttraction(@ModelAttribute TouristAttraction attraction) {
+        attractionService.updateAttraction(attraction);
+        return "redirect:/attractions"; // Redirect back to the list after saving changes
     }
 
-    @GetMapping("/attractions/{name}/tags")
-    public String listTagsByAttractions(Model model, @PathVariable String name) {
-        Optional<TouristAttraction> attraction = touristService.getAttractionByName(name);
-        model.addAttribute("attraction", attraction.get());
-        return "attractionTags";
+    // GET endpoint to display tags for a specific attraction
+    @GetMapping("/{name}/tags")
+    public String viewTags(@PathVariable String name, Model model) {
+        TouristAttraction attraction = attractionService.findByName(name);
+        model.addAttribute("attraction", attraction);
+        return "tags"; // HTML page to display the tags of the attraction
+    }
+
+    // GET endpoint to add a new tourist attraction
+    @GetMapping("/add")
+    public String addAttractionForm(Model model) {
+        model.addAttribute("attraction", new TouristAttraction()); // Provide a new, empty model for the form
+        return "addAttraction"; // HTML form page for adding a new attraction
+    }
+
+    // POST endpoint to save a new tourist attraction
+    @PostMapping("/save")
+    public String saveAttraction(@ModelAttribute TouristAttraction attraction) {
+        attractionService.saveAttraction(attraction);
+        return "redirect:/attractions"; // Redirect to the list after saving the new attraction
+    }
+
+    // POST endpoint to delete a tourist attraction
+    @PostMapping("/delete/{name}")
+    public String deleteAttraction(@PathVariable String name) {
+        attractionService.deleteAttraction(name);
+        return "redirect:/attractions"; // Redirect to the list after deletion
     }
 }
+
