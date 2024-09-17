@@ -1,9 +1,11 @@
 package grp1.touristguide.repository;
 
+import grp1.touristguide.model.Tag;
 import grp1.touristguide.model.TouristAttraction;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -15,8 +17,20 @@ public class TouristRepository {
     // Constructor to initialize with some sample data
     public TouristRepository() {
         // Adding a couple of sample TouristAttraction objects to the list
-        attractions.add(new TouristAttraction("Tivoli","Amusement park in the middle of Copenhagen city center.","Copenhagen",null));
-        attractions.add(new TouristAttraction("The Little Mermaid", "Iconic bronze statue based on the fairy tale by Hans Christian Andersen, located by the waterfront in Copenhagen.","Copenhagen",null));
+        attractions.add(new TouristAttraction(
+                "Tivoli",
+                "Amusement park in the middle of Copenhagen city center.",
+                "Copenhagen",
+                Arrays.asList(Tag.FAMILY_FRIENDLY, Tag.HISTORIC, Tag.CULTURAL, Tag.NATURE, Tag.ADVENTURE, Tag.RELAXING)
+        ));
+
+        // Adding The Little Mermaid with appropriate tags
+        attractions.add(new TouristAttraction(
+                "The Little Mermaid",
+                "Iconic bronze statue based on the fairy tale by Hans Christian Andersen, located by the waterfront in Copenhagen.",
+                "Copenhagen",
+                Arrays.asList(Tag.HISTORIC, Tag.CULTURAL, Tag.NATURE, Tag.RELAXING)
+        ));
     }
 
     // Read: Get all TouristAttractions
