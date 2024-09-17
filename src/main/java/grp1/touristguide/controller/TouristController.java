@@ -47,6 +47,7 @@ public class TouristController {
     public String viewTags(@PathVariable String name, Model model) {
         TouristAttraction attraction = attractionService.findByName(name);
         model.addAttribute("attraction", attraction);
+        model.addAttribute("tags", attraction.getTags());
         return "tags"; // HTML page to display the tags of the attraction
     }
 

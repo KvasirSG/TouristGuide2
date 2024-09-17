@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View Tags</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Link to your custom CSS file -->
+</head>
+<body class="body-container">
+
+<div class="container">
+    <h1 class="title" th:text="'Tags for ' + ${attraction.name}">Tags for Attraction</h1>
+
+    <!-- Display the list of tags -->
+    <ul class="tag-list">
+        <li th:each="tag : ${tags}" th:text="${tag.displayName}" class="tag-item">Tag Name</li>
+    </ul>
+
+    <!-- Back Button -->
+    <a href="/attractions" class="btn-back">Back to Attractions</a>
+</div>
+
+</body>
+</html>
