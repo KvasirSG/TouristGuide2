@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Attraction</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Link to your custom CSS file -->
+</head>
+<body class="body-container">
+
+<div class="container">
+    <h1 class="title">Add New Tourist Attraction</h1>
+
+    <!-- Form to add a new attraction -->
+    <form th:action="@{/attractions/save}" method="post" class="form-container">
+        <!-- Name Field -->
+        <div class="form-group">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" id="name" name="name" class="form-input" required>
+        </div>
+
+        <!-- City Field -->
+        <div class="form-group">
+            <label for="city" class="form-label">City:</label>
+            <input type="text" id="city" name="city" class="form-input" required>
+        </div>
+
+        <!-- Description Field -->
+        <div class="form-group">
+            <label for="description" class="form-label">Description:</label>
+            <textarea id="description" name="description" class="form-input" rows="4" required></textarea>
+        </div>
+
+        <!-- Tags Field with Checkboxes -->
+        <div class="form-group">
+            <label class="form-label">Tags:</label>
+            <div class="checkbox-group">
+                <div th:each="tag : ${tags}">
+                    <input type="checkbox" th:id="${tag}" th:name="tags" th:value="${tag.name()}" class="form-checkbox">
+                    <label th:for="${tag}" th:text="${tag.displayName}"></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-group">
+            <button type="submit" class="btn-submit">Save Attraction</button>
+            <a href="/attractions" class="btn-cancel">Cancel</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
