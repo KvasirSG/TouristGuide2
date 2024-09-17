@@ -1,10 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Tourist Attractions</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
-<body>
+<body class="body-container">
+
+<div class="container">
+    <h1 class="title">Tourist Attractions</h1>
+
+    <!-- Button to add a new attraction -->
+    <div class="button-container">
+        <a href="/attractions/add" class="btn-add">Add New Attraction</a>
+    </div>
+
+    <!-- Display a table of attractions -->
+    <table class="attractions-table">
+        <thead>
+        <tr class="table-header">
+            <th>Name</th>
+            <th>City</th>
+            <th>Description</th>
+            <th>Tags</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="attraction : ${attractions}" class="table-row">
+            <td th:text="${attraction.name}">Name</td>
+            <td th:text="${attraction.city}">City</td>
+            <td th:text="${attraction.description}">Description</td>
+            <td>
+                <ul>
+                    <li th:each="tag : ${attraction.tags}" th:text="${tag.getDisplayName()}">Tag</li>
+                </ul>
+            </td>
+            <td>
+                <!-- Edit Button -->
+                <a th:href="@{'/attractions/' + ${attraction.name} + '/edit'}" class="btn-link btn-edit">Edit</a>
+
+                <!-- View Tags Button -->
+                <a th:href="@{'/attractions/' + ${attraction.name} + '/tags'}" class="btn-link btn-view">View Tags</a>
+
+                <!-- Delete Button -->
+                <form th:action="@{'/attractions/delete/' + ${attraction.name}}" method="post" class="inline">
+                    <button type="submit" class="btn-link btn-delete">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 </body>
 </html>

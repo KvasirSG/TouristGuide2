@@ -1,5 +1,6 @@
 package grp1.touristguide.controller;
 
+import grp1.touristguide.model.Tag;
 import grp1.touristguide.model.TouristAttraction;
 import grp1.touristguide.service.TouristService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -52,6 +54,7 @@ public class TouristController {
     @GetMapping("/add")
     public String addAttractionForm(Model model) {
         model.addAttribute("attraction", new TouristAttraction()); // Provide a new, empty model for the form
+        model.addAttribute("tags", Arrays.asList(Tag.values())); // Add tags to the model
         return "addAttraction"; // HTML form page for adding a new attraction
     }
 
