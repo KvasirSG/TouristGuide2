@@ -16,8 +16,13 @@ import java.util.List;
 @RequestMapping("/attractions")
 public class TouristController {
 
+
+    private final TouristService attractionService;
+
     @Autowired
-    private TouristService attractionService;
+    public TouristController(TouristService attractionService) {
+        this.attractionService = attractionService;
+    }
 
     // GET endpoint to show the list of all attractions
     @GetMapping
