@@ -9,9 +9,6 @@ on:
       - master
   workflow_dispatch:
 
-permissions:
-  contents: write  # Allow GitHub Actions to push tags and manage content
-  statuses: write  # Ensure that the token has permission to post statuses (required for test report publishing)
 jobs:
   build:
     runs-on: ubuntu-latest
