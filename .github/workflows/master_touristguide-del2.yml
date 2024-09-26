@@ -45,6 +45,11 @@ jobs:
       id-token: write #This is required for requesting the JWT
   
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Ensure we get the full history for tagging
+
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
