@@ -9,6 +9,9 @@ on:
       - master
   workflow_dispatch:
 
+permissions:
+  contents: write  # Allow GitHub Actions to push tags and manage content
+
 jobs:
   build:
     runs-on: ubuntu-latest
