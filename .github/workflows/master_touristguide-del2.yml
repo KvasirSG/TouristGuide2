@@ -85,5 +85,5 @@ jobs:
             Release v${{ env.VERSION }} deployed to Azure Web App.
           draft: false
           prerelease: false
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
