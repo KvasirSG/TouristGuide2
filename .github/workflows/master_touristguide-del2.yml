@@ -35,7 +35,7 @@ jobs:
           name: java-app
           path: '${{ github.workspace }}/target/*.jar'
 
-  tag_and_deploydeploy:
+  tag_and_deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
@@ -43,6 +43,7 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
+      contents: write  # This is required for tagging and pushing changes
   
     steps:
       - name: Checkout repository
