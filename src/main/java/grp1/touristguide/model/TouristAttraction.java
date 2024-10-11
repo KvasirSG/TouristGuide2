@@ -7,6 +7,7 @@ import java.util.Objects;
 public class TouristAttraction {
 
     // Attributes for the tourist attraction
+    private int id;
     private String name;
     private String description;
     private String city;
@@ -49,6 +50,13 @@ public class TouristAttraction {
     }
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public int getId() {
+        return id;
     }
 }
 
