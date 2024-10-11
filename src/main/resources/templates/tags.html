@@ -12,7 +12,7 @@
 
     <!-- Display the list of tags -->
     <ul class="tag-list">
-        <li th:each="tag : ${tags}" th:text="${tag.displayName}" class="tag-item">Tag Name</li>
+        <li th:each="tag : ${tags}" th:text="${tag.name}" class="tag-item">Tag Name</li>
     </ul>
 
     <!-- Back Button -->
