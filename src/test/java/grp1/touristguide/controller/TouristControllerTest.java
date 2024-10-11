@@ -15,13 +15,14 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = TouristController.class)
+@WebMvcTest(controllers = grp1.ttouristguide.controller.TouristController.class)
 class TouristControllerTest {
 
     @Autowired
@@ -39,7 +40,7 @@ class TouristControllerTest {
         testAttraction.setName("Test Attraction");
         testAttraction.setDescription("A beautiful place to visit");
         testAttraction.setCity("Test City");
-        testAttraction.setTags(Arrays.asList(Tag.CULTURAL, Tag.HISTORIC));
+        testAttraction.setTags(Arrays.asList(new Tag("Cultural"), new Tag("Historic")));
     }
 
     @Test
@@ -55,13 +56,14 @@ class TouristControllerTest {
     @Test
     void editAttraction() throws Exception {
         when(touristService.findByName(anyString())).thenReturn(testAttraction);
+        when(touristService.findAllTags()).thenReturn(Arrays.asList(new Tag("Cultural"), new Tag("Historic")));
 
         mockMvc.perform(get("/attractions/{name}/edit", "Test Attraction"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("editAttraction"))
                 .andExpect(model().attributeExists("attraction"))
                 .andExpect(model().attributeExists("tags"))
-                .andExpect(model().attribute("tags", Arrays.asList(Tag.values())));
+                .andExpect(model().attribute("tags", Arrays.asList(new Tag("Cultural"), new Tag("Historic"))));
     }
 
     @Test
@@ -83,17 +85,19 @@ class TouristControllerTest {
                 .andExpect(view().name("tags"))
                 .andExpect(model().attributeExists("attraction"))
                 .andExpect(model().attributeExists("tags"))
-                .andExpect(model().attribute("tags", Arrays.asList(Tag.CULTURAL, Tag.HISTORIC)));
+                .andExpect(model().attribute("tags", Arrays.asList(new Tag("Cultural"), new Tag("Historic"))));
     }
 
     @Test
     void addAttractionForm() throws Exception {
+        when(touristService.findAllTags()).thenReturn(Arrays.asList(new Tag("Cultural"), new Tag("Historic")));
+
         mockMvc.perform(get("/attractions/add"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("addAttraction"))
                 .andExpect(model().attributeExists("attraction"))
                 .andExpect(model().attributeExists("tags"))
-                .andExpect(model().attribute("tags", Arrays.asList(Tag.values())));
+                .andExpect(model().attribute("tags", Arrays.asList(new Tag("Cultural"), new Tag("Historic"))));
     }
 
     @Test
@@ -108,11 +112,11 @@ class TouristControllerTest {
 
     @Test
     void deleteAttraction() throws Exception {
-        mockMvc.perform(post("/attractions/delete/{name}", "Test Attraction"))
+        mockMvc.perform(post("/attractions/delete/{id}", 1))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/attractions"));
 
-        Mockito.verify(touristService).deleteAttraction("Test Attraction");
+        Mockito.verify(touristService).deleteAttraction(anyInt());
     }
 
 }
