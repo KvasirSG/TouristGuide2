@@ -1,4 +1,4 @@
-package grp1.ttouristguide.controller;
+package grp1.touristguide.controller;
 
 import grp1.touristguide.model.Tag;
 import grp1.touristguide.model.TouristAttraction;
