@@ -35,9 +35,10 @@
             <label class="form-label">Tags:</label>
             <div class="checkbox-group">
                 <div th:each="tag : ${tags}">
-                    <input type="checkbox" th:field="*{tags}" th:id="${tag}" th:value="${tag.name()}" class="form-checkbox"
-                           th:checked="${attraction.tags.contains(tag)}">
-                    <label th:for="${tag}" th:text="${tag.displayName}"></label>
+                    <!-- Ensure the checkbox is checked if the tag is part of attraction's tags -->
+                    <input type="checkbox" th:field="*{tags}" th:id="${tag.name}" th:value="${tag.name}" class="form-checkbox"
+                           th:checked="${#lists.contains(attraction.tags, tag)}">
+                    <label th:for="${tag.name}" th:text="${tag.name}"></label>
                 </div>
             </div>
         </div>

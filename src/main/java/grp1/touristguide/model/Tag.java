@@ -1,20 +1,60 @@
 package grp1.touristguide.model;
 
-public enum Tag {
-    HISTORIC("Historic"),
-    FAMILY_FRIENDLY("Family-Friendly"),
-    NATURE("Nature"),
-    ADVENTURE("Adventure"),
-    CULTURAL("Cultural"),
-    RELAXING("Relaxing");
+import java.util.Objects;
 
-    private final String displayName;
+public class Tag {
 
-    Tag(String displayName) {
-        this.displayName = displayName;
+    // Attributes
+    private int id;         // Unique identifier for the tag (optional, depends on your DB schema)
+    private String name;    // Name of the tag
+
+    // Constructor
+    public Tag(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public Tag(String name) {
+        this.name = name;
+    }
+    public Tag(){}
+
+    // Getters and Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    // Override equals and hashCode for proper comparison (important for lists/sets)
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tag tag = (Tag) o;
+        return Objects.equals(name, tag.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    // Override toString (optional, for easy debugging/printing)
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

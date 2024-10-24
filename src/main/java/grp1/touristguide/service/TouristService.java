@@ -1,5 +1,6 @@
 package grp1.touristguide.service;
 
+import grp1.touristguide.model.Tag;
 import grp1.touristguide.model.TouristAttraction;
 import org.springframework.stereotype.Service;
 import grp1.touristguide.repository.TouristRepository;
@@ -35,7 +36,12 @@ public class TouristService {
     }
 
     // Method to delete an attraction by name
-    public void deleteAttraction(String name) {
-        touristRepository.deleteByName(name);
+    public void deleteAttraction(int id) {
+        touristRepository.deleteById(id);
+    }
+
+    // Method to get all tags
+    public List<Tag> findAllTags(){
+        return touristRepository.findAllTags();
     }
 }

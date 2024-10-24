@@ -35,8 +35,9 @@
             <label class="form-label">Tags:</label>
             <div class="checkbox-group">
                 <div th:each="tag : ${tags}">
-                    <input type="checkbox" th:id="${tag}" th:name="tags" th:value="${tag.name()}" class="form-checkbox">
-                    <label th:for="${tag}" th:text="${tag.displayName}"></label>
+                    <!-- Bind tag id to checkbox and display tag name -->
+                    <input type="checkbox" th:id="${tag.name}" th:name="tags" th:value="${tag.name}" class="form-checkbox">
+                    <label th:for="${tag.name}" th:text="${tag.name}"></label>
                 </div>
             </div>
         </div>
