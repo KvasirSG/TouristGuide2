@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = grp1.touristguide.controller.TouristController.class)
 class TouristControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
 
