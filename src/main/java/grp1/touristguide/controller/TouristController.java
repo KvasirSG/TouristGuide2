@@ -8,14 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
 @RequestMapping("/attractions")
 public class TouristController {
-
 
     private final TouristService attractionService;
 
@@ -36,8 +33,12 @@ public class TouristController {
     @GetMapping("/{name}/edit")
     public String editAttraction(@PathVariable String name, Model model) {
         TouristAttraction attraction = attractionService.findByName(name);
+        if (attraction == null) {
+            // handle the case where the attraction is not found
+            return "redirect:/attractions"; // redirect if not found
+        }
         model.addAttribute("attraction", attraction);
-        model.addAttribute("tags", Arrays.asList(Tag.values()));
+        model.addAttribute("tags", attractionService.findAllTags()); // List all available tags
         return "editAttraction"; // HTML page for editing the attraction
     }
 
@@ -52,6 +53,10 @@ public class TouristController {
     @GetMapping("/{name}/tags")
     public String viewTags(@PathVariable String name, Model model) {
         TouristAttraction attraction = attractionService.findByName(name);
+        if (attraction == null) {
+            // handle the case where the attraction is not found
+            return "redirect:/attractions"; // redirect if not found
+        }
         model.addAttribute("attraction", attraction);
         model.addAttribute("tags", attraction.getTags());
         return "tags"; // HTML page to display the tags of the attraction
@@ -61,7 +66,7 @@ public class TouristController {
     @GetMapping("/add")
     public String addAttractionForm(Model model) {
         model.addAttribute("attraction", new TouristAttraction()); // Provide a new, empty model for the form
-        model.addAttribute("tags", Arrays.asList(Tag.values())); // Add tags to the model
+        model.addAttribute("tags", attractionService.findAllTags()); // Add available tags to the model
         return "addAttraction"; // HTML form page for adding a new attraction
     }
 
@@ -72,11 +77,18 @@ public class TouristController {
         return "redirect:/attractions"; // Redirect to the list after saving the new attraction
     }
 
-    // POST endpoint to delete a tourist attraction
-    @PostMapping("/delete/{name}")
-    public String deleteAttraction(@PathVariable String name) {
-        attractionService.deleteAttraction(name);
+    // POST endpoint to delete a tourist attraction by ID
+    @PostMapping("/delete/{id}")
+    public String deleteAttraction(@PathVariable int id) {
+        attractionService.deleteAttraction(id);
         return "redirect:/attractions"; // Redirect to the list after deletion
     }
-}
 
+    // GET endpoint to list all tags (if needed)
+    @GetMapping("/tags")
+    public String getAllTags(Model model) {
+        List<Tag> tags = attractionService.findAllTags();
+        model.addAttribute("tags", tags);
+        return "tagList"; // The name of the Thymeleaf template to render the list of tags
+    }
+}

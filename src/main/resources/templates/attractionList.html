@@ -33,7 +33,8 @@
             <td th:text="${attraction.description}">Description</td>
             <td>
                 <ul>
-                    <li th:each="tag : ${attraction.tags}" th:text="${tag.getDisplayName()}">Tag</li>
+                    <!-- Assuming 'tag.name' is available in your Tag model class -->
+                    <li th:each="tag : ${attraction.tags}" th:text="${tag.name}">Tag</li>
                 </ul>
             </td>
             <td>
@@ -44,7 +45,8 @@
                 <a th:href="@{'/attractions/' + ${attraction.name} + '/tags'}" class="btn-link btn-view">View Tags</a>
 
                 <!-- Delete Button -->
-                <form th:action="@{'/attractions/delete/' + ${attraction.name}}" method="post" class="inline">
+                <!-- Use 'id' for deletion instead of 'name' -->
+                <form th:action="@{'/attractions/delete/' + ${attraction.id}}" method="post" class="inline">
                     <button type="submit" class="btn-link btn-delete">Delete</button>
                 </form>
             </td>
